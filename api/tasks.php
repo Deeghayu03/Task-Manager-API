@@ -4,7 +4,6 @@ header("Content-Type: application/json");
 
 require_once "../config/database.php";
 
-// get request method
 $method = $_SERVER['REQUEST_METHOD'];
 
 /* ---------- CREATE TASK ---------- */
@@ -24,7 +23,7 @@ if ($method === "POST") {
         exit;
     }
 
-    $sql = "INSERT INTO tasks (user_id, title, description) 
+    $sql = "INSERT INTO tasks (user_id, title, description)
             VALUES (:user_id, :title, :description)";
 
     $stmt = $pdo->prepare($sql);
@@ -108,7 +107,7 @@ if ($method === "PUT") {
         exit;
     }
 
-    $sql = "UPDATE tasks 
+    $sql = "UPDATE tasks
             SET title = :title,
                 description = :description,
                 status = :status,
@@ -127,5 +126,37 @@ if ($method === "PUT") {
     echo json_encode([
         "success" => true,
         "message" => "Task updated successfully"
+    ]);
+}
+
+
+/* ---------- SOFT DELETE TASK ---------- */
+if ($method === "DELETE") {
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $id = $data['id'] ?? null;
+
+    if (!$id) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Task ID is required"
+        ]);
+        exit;
+    }
+
+    $sql = "UPDATE tasks
+            SET deleted_at = NOW()
+            WHERE id = :id";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        ":id" => $id
+    ]);
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Task deleted successfully"
     ]);
 }
