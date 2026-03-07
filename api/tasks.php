@@ -41,6 +41,7 @@ if ($method === "POST") {
     ]);
 }
 
+
 /* ---------- GET TASKS ---------- */
 if ($method === "GET") {
 
@@ -85,5 +86,46 @@ if ($method === "GET") {
         "page" => (int)$page,
         "limit" => (int)$limit,
         "data" => $tasks
+    ]);
+}
+
+
+/* ---------- UPDATE TASK ---------- */
+if ($method === "PUT") {
+
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $id = $data['id'] ?? null;
+    $title = $data['title'] ?? null;
+    $description = $data['description'] ?? null;
+    $status = $data['status'] ?? null;
+
+    if (!$id) {
+        echo json_encode([
+            "success" => false,
+            "message" => "Task ID is required"
+        ]);
+        exit;
+    }
+
+    $sql = "UPDATE tasks 
+            SET title = :title,
+                description = :description,
+                status = :status,
+                updated_at = NOW()
+            WHERE id = :id";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute([
+        ":id" => $id,
+        ":title" => $title,
+        ":description" => $description,
+        ":status" => $status
+    ]);
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Task updated successfully"
     ]);
 }
