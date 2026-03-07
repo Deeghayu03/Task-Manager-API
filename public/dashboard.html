@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container dashboard-container">
+        <header>
+            <h2>Task Manager Dashboard</h2>
+            <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+        </header>
+
+        <section class="task-form-section">
+            <h3>Create New Task</h3>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn">Create Task</button>
+                <p id="taskMessage" class="message"></p>
+            </form>
+        </section>
+
+        <section class="task-list-section">
+            <h3>Your Tasks</h3>
+            <table id="tasksTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tasksBody">
+                    <!-- Tasks will be loaded here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- Update Task Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Update Task</h3>
+            <form id="updateForm">
+                <input type="hidden" id="updateId">
+                <div class="form-group">
+                    <label for="updateTitle">Title</label>
+                    <input type="text" id="updateTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="updateDescription">Description</label>
+                    <textarea id="updateDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="updateStatus">Status</label>
+                    <select id="updateStatus">
+                        <option value="pending">Pending</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
