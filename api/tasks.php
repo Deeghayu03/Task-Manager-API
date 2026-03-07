@@ -7,6 +7,7 @@ require_once "../config/database.php";
 // get request method
 $method = $_SERVER['REQUEST_METHOD'];
 
+/* ---------- CREATE TASK ---------- */
 if ($method === "POST") {
 
     $data = json_decode(file_get_contents("php://input"), true);
@@ -37,5 +38,52 @@ if ($method === "POST") {
     echo json_encode([
         "success" => true,
         "message" => "Task created successfully"
+    ]);
+}
+
+/* ---------- GET TASKS ---------- */
+if ($method === "GET") {
+
+    $page = $_GET['page'] ?? 1;
+    $limit = $_GET['limit'] ?? 10;
+    $status = $_GET['status'] ?? null;
+    $user_id = $_GET['user_id'] ?? null;
+
+    $offset = ($page - 1) * $limit;
+
+    $sql = "SELECT * FROM tasks WHERE deleted_at IS NULL";
+
+    $params = [];
+
+    if ($status) {
+        $sql .= " AND status = :status";
+        $params[':status'] = $status;
+    }
+
+    if ($user_id) {
+        $sql .= " AND user_id = :user_id";
+        $params[':user_id'] = $user_id;
+    }
+
+    $sql .= " LIMIT :limit OFFSET :offset";
+
+    $stmt = $pdo->prepare($sql);
+
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value);
+    }
+
+    $stmt->bindValue(":limit", (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(":offset", (int)$offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode([
+        "success" => true,
+        "page" => (int)$page,
+        "limit" => (int)$limit,
+        "data" => $tasks
     ]);
 }
