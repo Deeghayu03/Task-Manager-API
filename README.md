@@ -95,6 +95,21 @@ Tasks
 
 ---
 
+## How to Run the Project
+
+*Install XAMPP
+*Start Apache and MySQL
+*Place the project inside:
+
+C:\xampp\htdocs\Task-Manager-API
+
+*Import the database into MySQL
+*Open the frontend in your browser:
+
+http://localhost/Task-Manager-API/public/login.html
+
+---
+
 ## Author
 
 Deeghayu Jayasundare
