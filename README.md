@@ -11,9 +11,9 @@ Filtering
 
 Pagination
 
-Basic browser-based frontend
+A basic browser-based frontend
 
-The frontend communicates with the backend API using JavaScript fetch() requests, allowing asynchronous interaction with the API without page reloads.
+The frontend communicates with the backend API using JavaScript Fetch API, allowing asynchronous interaction with the API without page reloads.
 
 This project was developed as part of a Software Engineering Intern technical assessment.
 
@@ -46,26 +46,6 @@ Git
 
 GitHub
 
-Project Structure
-Task-Manager-API
-│
-├── api
-│   ├── register.php
-│   ├── login.php
-│   └── tasks.php
-│
-├── config
-│   └── database.php
-│
-├── models
-│
-├── public
-│   ├── login.html
-│   ├── dashboard.html
-│   ├── style.css
-│   └── app.js
-│
-└── README.md
 Database Schema
 Users Table
 Column	Type	Description
@@ -105,7 +85,7 @@ PUT /api/tasks.php
 Update an existing task.
 
 DELETE /api/tasks.php
-Soft delete a task by setting the deleted_at timestamp.
+Soft delete a task by updating the deleted_at field.
 
 Features
 
@@ -127,7 +107,7 @@ RESTful API design
 
 Secure password hashing
 
-Asynchronous frontend communication using fetch()
+Asynchronous frontend communication using Fetch API
 
 Frontend Functionality
 Login
@@ -155,10 +135,12 @@ Task Operations
 Users can:
 
 Create tasks
+
 Update tasks
+
 Delete tasks
 
-All operations communicate with the backend API using fetch(), and the UI updates automatically without reloading the page.
+All operations communicate with the backend API using fetch(), and the UI updates automatically without refreshing the page.
 
 How to Run the Project
 
